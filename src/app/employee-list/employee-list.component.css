@@ -1,0 +1,22 @@
+.container {
+  margin-top: 30px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.sort-column {
+  cursor: pointer;
+  float: right;
+  margin-top: 0.25em;
+}

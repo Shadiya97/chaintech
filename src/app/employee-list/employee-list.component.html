@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 offset-md-6">
+
+      <table>
+        <thead>
+          <tr>
+            <th >ID</th>
+            <th appSort [sortColumn]="'name'" (click)="toggleSortNameOrder()" >NAME 
+              <span><i class="fa fa-sort-asc sort-column" *ngIf="!isNameAscending"></i></span>
+              <span><i class="fa fa-sort-desc sort-column" *ngIf="isNameAscending"></i></span>
+            </th>
+    
+            <th appSort [sortColumn]="'age'" (click)="toggleSortAgeOrder()"> AGE 
+              <span><i class="fa fa-sort-asc sort-column" *ngIf="!isAgeAscending"></i></span>
+              <span><i class="fa fa-sort-desc sort-column" *ngIf="isAgeAscending"></i></span>
+            </th>
+            <th>PHONE</th>
+            <th>ADDRESS</th>
+          </tr>
+        </thead>
+    
+      <tbody>
+        <tr *ngFor="let employee of employees; let i=index" appHighlighter [age]="employee.age">
+          <td >{{i + 1}}</td>
+          <td >{{employee.name ?? {} | fullname}}</td>
+          <td >{{employee.age}}</td>
+          <td >{{employee.phone}}</td>
+          <td >{{employee.address}}</td>
+        </tr>
+      </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
