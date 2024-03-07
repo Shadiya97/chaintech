@@ -3,11 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HighlighterDirective } from './highlighter.directive';
+import { HighlighterDirective } from './directives/highlighter.directive';
 import { EmployeeListComponent } from './employee-list/employee-list.component';
 import { FullnamePipe } from './fullname.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SortDirective } from './sort.directive';
+import { SortDirective } from './directives/sort.directive';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { SortDirective } from './sort.directive';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

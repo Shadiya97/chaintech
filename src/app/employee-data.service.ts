@@ -23,4 +23,9 @@ export class EmployeeDataService {
     {  name: {first:'Pranav', last:'Pillai'}, age: 31, phone: '9990001111', address: '888 Sand St' },
     {  name: {first:'Omana', last:'Nandakumar'}, age: 18, phone: '2223334444', address: '444 Desert St' },
   ];
+
+  getFullName(employee:Employee){
+    return `${employee.name?.first ?? ''}${employee.name?.middle ?? ''}${employee.name?.last ?? ''}`.trim()
+  }
+  
 }

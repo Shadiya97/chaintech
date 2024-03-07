@@ -1,13 +1,13 @@
 import { Directive, HostListener, Input } from '@angular/core';
-import { Employee } from './employee.model';
-import { EmployeeDataService } from './employee-data.service';
+import { Employee } from '../employee.model';
+import { EmployeeDataService } from '../employee-data.service';
 
 @Directive({
   selector: '[appSort]'
 })
 export class SortDirective {
 
-data : Employee[] =[]
+@Input() data : Employee[] =[]
 @Input() sortColumn !: string
 isAscending:boolean=false;
 
@@ -23,7 +23,7 @@ sortFunctions: any = {
 constructor(private employeeDataService: EmployeeDataService) { }
 
 ngOnInit(){
- this.data = this.employeeDataService.employees
+//  this.data = this.employeeDataService.employees
 }
 
 @HostListener('click') onClick() {
@@ -51,14 +51,10 @@ sortbyAge(){
 sortbyName(){
   
   this.data.sort((a,b) => {
-    const nameA = this.getFullName(a)
-    const nameB = this.getFullName(b)
+    const nameA = this.employeeDataService.getFullName(a)
+    const nameB = this.employeeDataService.getFullName(b)
     return this.isAscending? (nameA).localeCompare(nameB) : (nameB).localeCompare(nameA)
   })
-}
-
-getFullName(employee:Employee){
-  return `${employee.name?.first ?? ''}${employee.name?.middle ?? ''}${employee.name?.last ?? ''}`.trim()
 }
 
 }

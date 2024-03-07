@@ -1,17 +1,24 @@
 <div class="container">
-  <div class="row">
-    <div class="col-md-12 offset-md-6">
+  <div class="row ">
+    <div class="col-md-6 offset-md-3">
 
+          <div class="input-group mb-3">
+            <input type="text" id="searchName" [(ngModel)]="searchName" placeholder="Employee name" class="form-control">
+            <button class="btn btn-outline-secondary" type="button"  (click)="searchEmployees()"> Search </button>
+            <button class="btn btn-outline-danger" type="button"  (click)="cancelSearch()"> Clear </button>
+          </div>
+      
+      
       <table>
         <thead>
           <tr>
             <th >ID</th>
-            <th appSort [sortColumn]="'name'" (click)="toggleSortNameOrder()" >NAME 
+            <th appSort [data]="this.filteredEmployees" [sortColumn]="'name'" (click)="toggleSortNameOrder()" >NAME 
               <span><i class="fa fa-sort-asc sort-column" *ngIf="!isNameAscending"></i></span>
               <span><i class="fa fa-sort-desc sort-column" *ngIf="isNameAscending"></i></span>
             </th>
     
-            <th appSort [sortColumn]="'age'" (click)="toggleSortAgeOrder()"> AGE 
+            <th appSort [data]="this.filteredEmployees" [sortColumn]="'age'" (click)="toggleSortAgeOrder()"> AGE 
               <span><i class="fa fa-sort-asc sort-column" *ngIf="!isAgeAscending"></i></span>
               <span><i class="fa fa-sort-desc sort-column" *ngIf="isAgeAscending"></i></span>
             </th>
@@ -21,7 +28,7 @@
         </thead>
     
       <tbody>
-        <tr *ngFor="let employee of employees; let i=index" appHighlighter [age]="employee.age">
+        <tr *ngFor="let employee of filteredEmployees; let i=index" appHighlighter [age]="employee.age">
           <td >{{i + 1}}</td>
           <td >{{employee.name ?? {} | fullname}}</td>
           <td >{{employee.age}}</td>
