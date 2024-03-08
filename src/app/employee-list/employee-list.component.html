@@ -3,8 +3,8 @@
     <div class="col-md-6 offset-md-3">
 
           <div class="input-group mb-3">
-            <input type="text" id="searchName" [(ngModel)]="searchName" placeholder="Employee name" class="form-control">
-            <button class="btn btn-outline-secondary" type="button"  (click)="searchEmployees()"> Search </button>
+            <input type="text" id="searchName" [(ngModel)]="searchName" placeholder="Employee name" (keyup)="searchEmployees()" class="form-control">
+            <button class="btn btn-outline-secondary" type="button"> Search </button>
             <button class="btn btn-outline-danger" type="button"  (click)="cancelSearch()"> Clear </button>
           </div>
       
@@ -30,7 +30,7 @@
       <tbody>
         <tr *ngFor="let employee of filteredEmployees; let i=index" appHighlighter [age]="employee.age">
           <td >{{i + 1}}</td>
-          <td >{{employee.name ?? {} | fullname}}</td>
+          <td >{{employee.name  | fullname}}</td>
           <td >{{employee.age}}</td>
           <td >{{employee.phone}}</td>
           <td >{{employee.address}}</td>

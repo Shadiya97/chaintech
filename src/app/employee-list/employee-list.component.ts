@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Employee, EmployeeName } from '../employee.model';
+import { Employee } from '../employee.model';
 import { EmployeeDataService } from '../employee-data.service';
+import { FullnamePipe } from '../shared/pipes/fullname.pipe';
 
 @Component({
   selector: 'app-employee-list',
@@ -15,7 +16,7 @@ searchName:string='';
 employees: Employee[] =[]
 filteredEmployees: Employee[]=[];
 
-constructor(private employeeDataService:EmployeeDataService){}
+constructor(private employeeDataService:EmployeeDataService, private fullNamePipe: FullnamePipe){}
 
 ngOnInit(): void {
   this.employees = this.employeeDataService.employees;
@@ -31,12 +32,12 @@ ngOnInit(): void {
   }
 
   searchEmployees(){
-    if(this.searchName === ''){
-      this.filteredEmployees = [...this.employees];
-    }
+   
     this.filteredEmployees = this.employees.filter((employee:Employee)=>{
-     const employeeName = this.employeeDataService.getFullName(employee);
-     return employeeName.toLowerCase().includes(this.searchName.toLowerCase())
+     const employeeName = this.fullNamePipe.transform(employee.name);
+      console.log('employeename',employeeName)
+      console.log('search name', this.searchName)
+     return (employeeName).toLowerCase().includes(this.searchName.toLowerCase())
     })
   }
 

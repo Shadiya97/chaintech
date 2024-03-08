@@ -1,6 +1,7 @@
 import { Directive, HostListener, Input } from '@angular/core';
-import { Employee } from '../employee.model';
-import { EmployeeDataService } from '../employee-data.service';
+import { Employee } from '../../employee.model';
+import { EmployeeDataService } from '../../employee-data.service';
+import { FullnamePipe } from '../pipes/fullname.pipe';
 
 @Directive({
   selector: '[appSort]'
@@ -20,7 +21,7 @@ sortFunctions: any = {
   },
 };
 
-constructor(private employeeDataService: EmployeeDataService) { }
+constructor(private employeeDataService: EmployeeDataService, private fullNamePipe: FullnamePipe) { }
 
 ngOnInit(){
 //  this.data = this.employeeDataService.employees
@@ -51,8 +52,9 @@ sortbyAge(){
 sortbyName(){
   
   this.data.sort((a,b) => {
-    const nameA = this.employeeDataService.getFullName(a)
-    const nameB = this.employeeDataService.getFullName(b)
+
+    const nameA = this.fullNamePipe.transform(a.name);
+    const nameB = this.fullNamePipe.transform(b.name) 
     return this.isAscending? (nameA).localeCompare(nameB) : (nameB).localeCompare(nameA)
   })
 }
