@@ -9,6 +9,7 @@ import { FullnamePipe } from './shared/pipes/fullname.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SortDirective } from './shared/directives/sort.directive';
 import { FormsModule } from '@angular/forms';
+import { EmployeeSearchComponent } from './employee-search/employee-search.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { FormsModule } from '@angular/forms';
     HighlighterDirective,
     EmployeeListComponent,
     FullnamePipe,
-    SortDirective
+    SortDirective,
+    EmployeeSearchComponent
   ],
   imports: [
     BrowserModule,

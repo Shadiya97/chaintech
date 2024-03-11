@@ -1,27 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Employee } from '../employee.model';
 import { EmployeeDataService } from '../employee-data.service';
-import { FullnamePipe } from '../shared/pipes/fullname.pipe';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.css']
 })
-export class EmployeeListComponent implements OnInit{
+export class EmployeeListComponent implements OnInit, OnDestroy{
 
 isNameAscending:boolean = false;
 isAgeAscending:boolean = false;
 searchName:string='';
-employees: Employee[] =[]
 filteredEmployees: Employee[]=[];
+filteredListSubscription!: Subscription
 
-constructor(private employeeDataService:EmployeeDataService, private fullNamePipe: FullnamePipe){}
+constructor(private employeeDataService:EmployeeDataService){}
 
 ngOnInit(): void {
-  this.employees = this.employeeDataService.employees;
-  this.filteredEmployees = [...this.employees];
 
+  this.filteredListSubscription = this.employeeDataService.filteredListEmitter.subscribe(filteredList => {
+    this.filteredEmployees = filteredList;
+    console.log('filtered List', filteredList);
+  })
 }
 
   toggleSortNameOrder(){
@@ -31,18 +33,8 @@ ngOnInit(): void {
     this.isAgeAscending = !this.isAgeAscending
   }
 
-  searchEmployees(){
-   
-    this.filteredEmployees = this.employees.filter((employee:Employee)=>{
-     const employeeName = this.fullNamePipe.transform(employee.name);
-      console.log('employeename',employeeName)
-      console.log('search name', this.searchName)
-     return (employeeName).toLowerCase().includes(this.searchName.toLowerCase())
-    })
+  ngOnDestroy(): void {
+    this.filteredListSubscription.unsubscribe();
   }
 
-  cancelSearch(){
-    this.searchName='';
-    this.filteredEmployees = [...this.employees];
-  }
 }

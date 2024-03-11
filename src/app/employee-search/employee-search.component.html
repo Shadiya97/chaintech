@@ -1,0 +1,5 @@
+<div class="input-group mb-3">
+    <input type="text" id="searchName" [(ngModel)]="searchName" placeholder="Employee name" (keyup)="searchEmployees()" class="form-control">
+    <button class="btn btn-outline-secondary" type="button"> Search </button>
+    <button class="btn btn-outline-danger" type="button"  (click)="cancelSearch()"> Clear </button>
+  </div>
