@@ -10,7 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SortDirective } from './shared/directives/sort.directive';
 import { FormsModule } from '@angular/forms';
 import { EmployeeSearchComponent } from './employee-search/employee-search.component';
-
+import { NgxPaginationModule } from 'ngx-pagination';
+import { EmployeeTableComponent } from './employee-table/employee-table.component';
+import { HttpClientModule } from '@angular/common/http'
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,13 +20,16 @@ import { EmployeeSearchComponent } from './employee-search/employee-search.compo
     EmployeeListComponent,
     FullnamePipe,
     SortDirective,
-    EmployeeSearchComponent
+    EmployeeSearchComponent,
+    EmployeeTableComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule,
+    HttpClientModule
   ],
   providers: [FullnamePipe],
   bootstrap: [AppComponent]

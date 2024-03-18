@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Employee } from './employee.model';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class EmployeeDataService {
 
   filteredListEmitter = new BehaviorSubject<Employee[]>(this.getEmployees());
   // employeeObservable = this.filteredListEmitter.asObservable();
-  constructor() {
+  constructor(private http:HttpClient) {
     this.filteredListEmitter.next(this.getEmployees());
    }
 
@@ -83,6 +84,10 @@ export class EmployeeDataService {
 
   getEmployees(){
     return this.employees;
+  }
+
+  getEmployeesFromApi(noofRecords:number,startIndex:number){
+    return this.http.get(`https://hub.dummyapis.com/employee?noofRecords=${noofRecords}&idStarts=${startIndex}`)
   }
 
 }

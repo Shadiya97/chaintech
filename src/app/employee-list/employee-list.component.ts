@@ -10,31 +10,72 @@ import { Subscription } from 'rxjs';
 })
 export class EmployeeListComponent implements OnInit, OnDestroy{
 
-isNameAscending:boolean = false;
-isAgeAscending:boolean = false;
-searchName:string='';
 filteredEmployees: Employee[]=[];
-filteredListSubscription!: Subscription
+filteredListSubscription!: Subscription;
+totalPages!: number;
+itemsPerPage: number = 10;
+paginatedEmployees:Employee[]=[]
+currentPage:number=1;
 
 constructor(private employeeDataService:EmployeeDataService){}
 
 ngOnInit(): void {
 
   this.filteredListSubscription = this.employeeDataService.filteredListEmitter.subscribe(filteredList => {
+    this.currentPage = 1;
     this.filteredEmployees = filteredList;
     console.log('filtered List', filteredList);
+    this.calculateTotalPages();
+    this.updatePaginatedEmployees();
+    
   })
+  
 }
-
-  toggleSortNameOrder(){
-    this.isNameAscending = !this.isNameAscending
-  }
-  toggleSortAgeOrder(){
-    this.isAgeAscending = !this.isAgeAscending
-  }
 
   ngOnDestroy(): void {
     this.filteredListSubscription.unsubscribe();
+  }
+
+  // Pagination functionality
+  calculateTotalPages(){
+    this.totalPages = Math.ceil(this.filteredEmployees.length / this.itemsPerPage);
+  }
+
+  // Create an array of page numbers for pagination
+  getPages(){
+    const pages = [];
+
+    for(let i=1; i <= this.totalPages;i++){
+      pages.push(i);
+    }
+
+    return pages;
+  }
+
+  changePage(newPage: number){
+    this.currentPage = newPage;
+    this.updatePaginatedEmployees();
+  }
+
+  // Update the array of paginated employees
+  updatePaginatedEmployees(){
+  
+    const startIndex = (this.currentPage-1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+
+    this.paginatedEmployees = this.filteredEmployees.slice(startIndex, endIndex);
+  }
+
+  previousPage(){
+    if(this.currentPage > 1){
+      this.changePage(this.currentPage - 1);
+    }
+  }
+
+  nextPage(){
+    if(this.currentPage < this.totalPages){
+      this.changePage(this.currentPage + 1);
+    }
   }
 
 }

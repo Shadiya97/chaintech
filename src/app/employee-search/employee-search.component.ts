@@ -23,8 +23,6 @@ export class EmployeeSearchComponent {
   searchEmployees(){
     this.filteredEmployees = this.employees.filter((employee:Employee)=>{
       const employeeName = this.fullNamePipe.transform(employee.name);
-       console.log('employeename',employeeName)
-       console.log('search name', this.searchName)
       return (employeeName).toLowerCase().includes(this.searchName.toLowerCase())
      })
      this.employeeDataService.filteredListEmitter.next(this.filteredEmployees);

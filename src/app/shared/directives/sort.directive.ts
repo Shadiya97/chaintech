@@ -1,6 +1,5 @@
-import { Directive, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
 import { Employee } from '../../employee.model';
-import { EmployeeDataService } from '../../employee-data.service';
 import { FullnamePipe } from '../pipes/fullname.pipe';
 
 @Directive({
@@ -21,25 +20,46 @@ sortFunctions: any = {
   },
 };
 
-constructor(private employeeDataService: EmployeeDataService, private fullNamePipe: FullnamePipe) { }
+constructor(private fullNamePipe: FullnamePipe, private renderer: Renderer2,private elRef:ElementRef) { }
 
 ngOnInit(){
-//  this.data = this.employeeDataService.employees
+this.addIcon();
 }
 
 @HostListener('click') onClick() {
 
   this.isAscending = !this.isAscending;
-
-  // if (this.sortColumn === 'age'){
-  //   this.sortbyAge()
-  // } else if (this.sortColumn === 'name'){
-  //   this.sortbyName()
-  // }
+  this.addIcon()
 
   this.sortFunctions[this.sortColumn]();
 
-}  
+} 
+
+addIcon(){
+  const iconElement = this.renderer.createElement('i')
+  this.renderer.addClass(iconElement,'fa')
+  this.renderer.setStyle(iconElement,'cursor','pointer');
+    this.renderer.setStyle(iconElement,'float','right');
+    this.renderer.setStyle(iconElement,'margin','0.25em');
+
+
+  if(!this.isAscending){
+    this.renderer.addClass(iconElement, 'fa-sort-asc')
+    this.renderer.removeClass(iconElement,'fa-sort-desc')
+  }
+  if(this.isAscending){
+    this.renderer.removeClass(iconElement,'fa-sort-asc');
+    this.renderer.addClass(iconElement,'fa-sort-desc')
+  }
+
+  const existingIcon = this.elRef.nativeElement.querySelector('i');
+  if (existingIcon) {
+    this.renderer.removeChild(this.elRef.nativeElement, existingIcon);
+  }
+
+  this.renderer.appendChild(this.elRef.nativeElement, iconElement);
+
+}
 
 sortbyAge(){
 
